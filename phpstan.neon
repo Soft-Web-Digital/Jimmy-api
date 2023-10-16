@@ -1,0 +1,26 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+
+    # Level 9 is the highest level
+    level: 6
+
+    ignoreErrors:
+        - '#^Access to an undefined property App\\Contracts\\Auth\\\w+\:\:\$\w+\.$#'
+        - '#^Access to an undefined property App\\Models\\\w+\:\:\$\w+\.$#'
+        - '#^Access to an undefined property App\\Contracts\\HasWallet&Illuminate\\Database\\Eloquent\\Model\:\:\$\w+\.$#'
+        - '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$\w+\.$#'
+        # - '#^Access to an undefined property Illuminate\\Foundation\\Auth\\User\:\:\$\w+\.$#'
+        - '#^Access to an undefined property Spatie\\Activitylog\\Contracts\\Activity\:\:\$\w+\.$#'
+        - '#^Access to an undefined property Yabacon\\Paystack\:\:\$\w+\.$#'
+
+    checkGenericClassInNonGenericObjectType: false
+
+#    excludePaths:
+#        - ./*/*/FileToBeExcluded.php
+#
+#    checkMissingIterableValueType: false

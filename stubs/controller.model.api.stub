@@ -1,0 +1,124 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ namespacedRequests }}
+use {{ namespacedModel }};
+use MarcinOrlowski\ResponseBuilder\ResponseBuilder;
+use Symfony\Component\HttpFoundation\Response;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Create a new controller instance.
+     *
+     * @param \{{ namespacedModel }} ${{ modelVariable }}
+     */
+    public function __construct(public {{ model }} ${{ modelVariable }})
+    {
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function index(Request $request): Response
+    {
+        ${{ modelVariable }}s = $this->{{ modelVariable }}->all();
+
+        return ResponseBuilder::asSuccess()
+            ->withMessage('{{ model }}s fetched successfully')
+            ->withData([
+                '{{ modelVariable }}s' => ${{ modelVariable }}s,
+            ])
+            ->build();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \{{ namespacedStoreRequest }} $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function store({{ storeRequest }} $request): Response
+    {
+        ${{ modelVariable }} = $this->{{ modelVariable }}->create([]);
+
+        return ResponseBuilder::asSuccess()
+            ->withHttpCode(201)
+            ->withMessage('{{ model }} created successfully')
+            ->withData([
+                '{{ modelVariable }}' => ${{ modelVariable }},
+            ])
+            ->build();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param \{{ namespacedModel }} ${{ modelVariable }}
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function show({{ model }} ${{ modelVariable }}): Response
+    {
+        return ResponseBuilder::asSuccess()
+            ->withMessage('{{ model }} fetched successfully')
+            ->withData([
+                '{{ modelVariable }}' => ${{ modelVariable }},
+            ])
+            ->build();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \{{ namespacedUpdateRequest }} $request
+     * @param \{{ namespacedModel }} ${{ modelVariable }}
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function update({{ updateRequest }} $request, {{ model }} ${{ modelVariable }}): Response
+    {
+        ${{ modelVariable }}->updateOrFail([]);
+
+        return ResponseBuilder::asSuccess()
+            ->withMessage('{{ model }} updated successfully')
+            ->withData([
+                '{{ modelVariable }}' => ${{ modelVariable }},
+            ])
+            ->build();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \{{ namespacedModel }} ${{ modelVariable }}
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy({{ model }} ${{ modelVariable }}): Response
+    {
+        ${{ modelVariable }}->deleteOrFail();
+
+        return response()->json(null, 204);
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param \{{ namespacedModel }} ${{ modelVariable }}
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function restore({{ model }} ${{ modelVariable }}): Response
+    {
+        ${{ modelVariable }}->restore();
+
+        return ResponseBuilder::asSuccess()
+            ->withMessage('{{ model }} restored successfully')
+            ->withData([
+                '{{ modelVariable }}' => ${{ modelVariable }},
+            ])
+            ->build();
+    }
+}

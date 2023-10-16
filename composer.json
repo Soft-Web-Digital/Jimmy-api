@@ -1,0 +1,108 @@
+{
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "cloudinary-labs/cloudinary-laravel": "^2.0",
+        "doctrine/dbal": "^3.6",
+        "genealabs/laravel-sign-in-with-apple": "^0.6.0",
+        "genealabs/laravel-socialiter": "^0.4.0",
+        "guzzlehttp/guzzle": "^7.2",
+        "kutia-software-company/larafirebase": "^1.3",
+        "laravel/framework": "^9.19",
+        "laravel/sanctum": "^3.0",
+        "laravel/tinker": "^2.7",
+        "maatwebsite/excel": "^3.1",
+        "marcin-orlowski/laravel-api-response-builder": "^9.3",
+        "propaganistas/laravel-phone": "^4.4",
+        "pusher/pusher-php-server": "^7.2",
+        "spatie/laravel-activitylog": "^4.7",
+        "spatie/laravel-medialibrary": "^10.7",
+        "spatie/laravel-morph-map-generator": "^1.0",
+        "spatie/laravel-permission": "^5.7",
+        "spatie/laravel-query-builder": "^5.1",
+        "symfony/http-client": "^6.2",
+        "symfony/mailgun-mailer": "^6.2",
+        "yabacon/paystack-php": "^2.2"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.9.1",
+        "laravel/pint": "^1.0",
+        "laravel/sail": "^1.0.1",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^6.1",
+        "nunomaduro/larastan": "^2.0",
+        "pestphp/pest": "^1.22",
+        "pestphp/pest-plugin-laravel": "^1.3",
+        "pestphp/pest-plugin-parallel": "^1.2",
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
+        "post-ci": [
+            "@php artisan migrate --force",
+            "@php artisan db:seed --force",
+            "@php artisan config:cache",
+            "@php artisan view:cache",
+            "@php artisan route:cache",
+            "@php artisan event:cache",
+            "@php artisan morph-map:cache",
+            "@php artisan queue:restart"
+        ],
+        "phpstan": [
+            "./vendor/bin/phpstan analyse"
+        ],
+        "pint": [
+            "./vendor/bin/pint"
+        ]
+    },
+    "scripts-descriptions": {
+        "post-ci": "Run necessary post-CI commands",
+        "phpstan": "Run PHPStan static analysis against your application",
+        "pint": "Run Laravel Pint coding style analysis against your application"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "symfony/thanks": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

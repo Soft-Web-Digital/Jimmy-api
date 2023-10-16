@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('user_kycs', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuidMorphs('user');
+            $table->string('bvn')->nullable();
+            $table->string('nin')->nullable();
+            $table->timestamp('bvn_verified_at')->nullable();
+            $table->timestamp('nin_verified_at')->nullable();
+            $table->timestamps();
+
+            $table->unique([
+                'user_type',
+                'user_id',
+            ]);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('user_kycs');
+    }
+};
