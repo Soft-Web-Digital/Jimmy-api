@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 // Route::redirect('/', config('app.frontend.url'));
+
+// add a new line to test the server
