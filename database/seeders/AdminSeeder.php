@@ -30,7 +30,7 @@ class AdminSeeder extends Seeder
                     'country_id' => Country::query()->where('alpha2_code', 'NG')->value('id'),
                     'firstname' => 'Admin',
                     'lastname' => config('app.name'),
-                    'password' => bcrypt('softweb123'),
+                    'password' => bcrypt('Softweb@12345'),
                 ]
             );
 
