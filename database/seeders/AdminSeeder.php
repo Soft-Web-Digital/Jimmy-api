@@ -24,7 +24,7 @@ class AdminSeeder extends Seeder
         try {
             $admin = Admin::query()->updateOrCreate(
                 [
-                    'email' => 'admin@ksbtech.com.ng',
+                    'email' => 'softwebdigital@gmail.com',
                 ],
                 [
                     'country_id' => Country::query()->where('alpha2_code', 'NG')->value('id'),
