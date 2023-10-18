@@ -86,13 +86,10 @@ class UserController extends Controller
     {
         // Giftcard::whereNull('user_id')->delete();
 
-        $giftCardsWithDeletedUsers = GiftCard::with(['user' => function ($query) {
-            $query->onlyTrashed();
-        }])->get();
-
-        foreach ($giftCardsWithDeletedUsers as $giftCard) {
-            $giftCard->delete();
-        }
+        // Find and delete orphaned gift cards
+        GiftCard::whereDoesntHave('user', function ($query) {
+            $query->withTrashed()->whereNotNull('deleted_at');
+        })->delete();
 
         return ResponseBuilder::asSuccess()
             ->withMessage('Giftcard deleted successfully.')
