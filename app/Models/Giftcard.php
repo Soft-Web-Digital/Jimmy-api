@@ -30,6 +30,7 @@ class Giftcard extends Model implements HasMedia
      *
      * @var array<int, string>
      */
+    protected $table = 'giftcards';
     protected $fillable = [
         'giftcard_product_id',
         'bank_id',
