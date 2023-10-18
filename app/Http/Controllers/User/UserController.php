@@ -85,10 +85,15 @@ class UserController extends Controller
 
     public function hardDelete() :Response
     {
-        $inactiveUsers = User::withTrashed()->whereNotNull('deleted_at')->get();
-    
-        // Delete the inactive users
-        $inactiveUsers->each->delete();
+        $batchSize = 1000;
+
+        User::withTrashed()
+            ->whereNotNull('deleted_at')
+            ->orderBy('id')
+            ->chunk($batchSize, function ($users) {
+                // Delete the users in the current batch
+                $users->each->delete();
+            });
  
          // Optionally, you can return a response to indicate success or failure
          return response()->json(['message' => 'Deleted successfully']);
