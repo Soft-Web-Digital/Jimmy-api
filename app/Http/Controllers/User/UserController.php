@@ -85,20 +85,12 @@ class UserController extends Controller
 
     public function hardDelete() :Response
     {
-        // $giftCardsToDelete = Giftcard::whereNotIn('user_id', User::pluck('id')->all())->get();
-
-        // Delete the gift cards
-        // foreach ($giftCardsToDelete as $giftCard) {
-        //     $giftCard->delete();
-        // }
-
-        $deletedRows = Giftcard::whereNotExists(function ($query) {
-            $query->select('id')
-                ->from('users')
-                ->where('users.id', '=', DB::raw('gift_cards.user_id'));
+        GiftCard::whereDoesntHave('user', function ($query) {
+            $query->withTrashed(); // Include soft deleted users
         })->delete();
 
-        return response()->json(['message' => 'Invalid gift cards deleted successfully', 'deleted_rows' => $deletedRows]);
+
+        return response()->json('Invalid gift cards deleted successfully');
  
          // Optionally, you can return a response to indicate success or failure
         //  return response()->json(['message' => 'Orphaned gift cards deleted successfully']);
