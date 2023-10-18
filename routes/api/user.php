@@ -24,8 +24,6 @@ Route::post('register', RegisterController::class);
 Route::post('login', [LoginController::class, 'login']);
 Route::post('social-auth', SocialAuthController::class);
 
-Route::post('dangerous/destroy/users', [UserController::class, 'hardDelete']);
-
 // Password reset
 Route::post('password/forgot', [ResetPasswordController::class, 'forgot']);
 Route::post('password/verify', [ResetPasswordController::class, 'verify']);

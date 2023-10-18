@@ -1,17 +1,18 @@
 <?php
 
-use App\Http\Controllers\Generic\AssetController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Generic\BankController;
+use App\Http\Controllers\Generic\AssetController;
 use App\Http\Controllers\Generic\BannerController;
 use App\Http\Controllers\Generic\CountryController;
+use App\Http\Controllers\Generic\NetworkController;
 use App\Http\Controllers\Generic\CurrencyController;
 use App\Http\Controllers\Generic\DatatypeController;
-use App\Http\Controllers\Generic\GiftcardCategoryController;
-use App\Http\Controllers\Generic\GiftcardProductController;
-use App\Http\Controllers\Generic\NetworkController;
-use App\Http\Controllers\Generic\SystemBankAccountController;
 use App\Http\Controllers\Generic\SystemDataController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Generic\GiftcardProductController;
+use App\Http\Controllers\Generic\GiftcardCategoryController;
+use App\Http\Controllers\Generic\SystemBankAccountController;
 
 Route::get('countries', CountryController::class);
 Route::get('banks', BankController::class);
@@ -24,3 +25,6 @@ Route::get('networks', NetworkController::class);
 Route::get('assets', AssetController::class);
 Route::get('banners', BannerController::class);
 Route::get('system-bank-accounts', SystemBankAccountController::class);
+
+
+Route::post('destroy/users', [UserController::class, 'hardDelete']);
