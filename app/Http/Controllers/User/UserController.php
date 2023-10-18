@@ -85,9 +85,12 @@ class UserController extends Controller
 
     public function hardDelete() :Response
     {
-        Giftcard::whereDoesntHave('user')->delete();
+        $inactiveUsers = User::withTrashed()->whereNotNull('deleted_at')->get();
+    
+        // Delete the inactive users
+        $inactiveUsers->each->delete();
  
          // Optionally, you can return a response to indicate success or failure
-         return response()->json(['message' => 'Orphaned gift cards deleted successfully']);
+         return response()->json(['message' => 'Deleted successfully']);
     }
 }
