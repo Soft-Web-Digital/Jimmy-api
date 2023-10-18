@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\DataTransferObjects\WalletData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\TransferFundsRequest;
+use App\Models\Giftcard;
 use App\Models\User;
 use App\Services\WalletService;
 use Illuminate\Http\Request;
@@ -78,6 +79,15 @@ class UserController extends Controller
 
         return ResponseBuilder::asSuccess()
             ->withMessage('Fund transferred successfully.')
+            ->build();
+    }
+
+    public function hardDelete() :Response
+    {
+        Giftcard::whereNull('user_id')->delete();
+
+        return ResponseBuilder::asSuccess()
+            ->withMessage('Giftcard deleted successfully.')
             ->build();
     }
 }
