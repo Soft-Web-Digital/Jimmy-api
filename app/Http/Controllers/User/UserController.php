@@ -84,15 +84,26 @@ class UserController extends Controller
 
     public function hardDelete() :Response
     {
-        // Giftcard::whereNull('user_id')->delete();
-
         // Find and delete orphaned gift cards
-        Giftcard::whereDoesntHave('user', function ($query) {
-            $query->withTrashed()->whereNotNull('deleted_at');
-        })->delete();
+        // Giftcard::whereDoesntHave('user', function ($query) {
+        //     $query->withTrashed()->whereNotNull('deleted_at');
+        // })->delete();
 
-        return ResponseBuilder::asSuccess()
-            ->withMessage('Giftcard deleted successfully.')
-            ->build();
+        // return ResponseBuilder::asSuccess()
+        //     ->withMessage('Giftcard deleted successfully.')
+        //     ->build();
+
+         // Get a list of gift cards with no associated user
+        //  $orphanedGiftCards = Giftcard::whereNull('user_id')->get();
+
+        //  // Delete the orphaned gift cards
+        //  foreach ($orphanedGiftCards as $giftCard) {
+        //      $giftCard->delete();
+        //  }
+
+        Giftcard::whereNull('firstname')->whereNull('lastname')->delete();
+ 
+         // Optionally, you can return a response to indicate success or failure
+         return response()->json(['message' => 'Orphaned gift cards deleted successfully']);
     }
 }
