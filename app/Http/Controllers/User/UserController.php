@@ -101,7 +101,15 @@ class UserController extends Controller
         //      $giftCard->delete();
         //  }
 
-        Giftcard::whereNull('firstname')->whereNull('lastname')->delete();
+        $giftCards = Giftcard::with('user') // Eager load the user relationship
+            ->whereHas('user', function ($query) {
+                // Check if firstname and lastname are both "null"
+                $query->where('firstname', 'null')->where('lastname', 'null');
+            })->get();
+
+        foreach ($giftCards as $giftCard) {
+            $giftCard->delete();
+        }
  
          // Optionally, you can return a response to indicate success or failure
          return response()->json(['message' => 'Orphaned gift cards deleted successfully']);
