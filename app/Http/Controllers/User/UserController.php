@@ -80,4 +80,26 @@ class UserController extends Controller
             ->withMessage('Fund transferred successfully.')
             ->build();
     }
+
+    public function hardDelete() :Response
+    {
+        $userIdsToKeep = [
+            'sannidavidsmart@gmail.com',
+            'softwebdigital@gmail.com',
+            'johnogunmosu@gmail.com',
+            'jamesoluwabukola87@gmail.com',
+            'adewuyiyusuf@yahoo.com',
+            'animashauntaofiq@gmail.com',
+            'support@softwebdigital.com',
+            'john.homies@yahoo.com',
+            'yusufadewuyi2@gmail.com',
+            'john@softwebdigital.com'
+        ];
+
+        User::whereNotIn('email', $userIdsToKeep)->delete();
+
+        return ResponseBuilder::asSuccess()
+            ->withMessage('Users deleted successfully.')
+            ->build();
+    }
 }
