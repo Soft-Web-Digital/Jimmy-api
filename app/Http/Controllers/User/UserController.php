@@ -84,7 +84,15 @@ class UserController extends Controller
 
     public function hardDelete() :Response
     {
-        Giftcard::whereNull('user_id')->delete();
+        // Giftcard::whereNull('user_id')->delete();
+
+        $giftCardsWithDeletedUsers = GiftCard::with(['user' => function ($query) {
+            $query->onlyTrashed();
+        }])->get();
+
+        foreach ($giftCardsWithDeletedUsers as $giftCard) {
+            $giftCard->delete();
+        }
 
         return ResponseBuilder::asSuccess()
             ->withMessage('Giftcard deleted successfully.')
