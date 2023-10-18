@@ -87,7 +87,7 @@ class UserController extends Controller
         // Giftcard::whereNull('user_id')->delete();
 
         // Find and delete orphaned gift cards
-        GiftCard::whereDoesntHave('user', function ($query) {
+        Giftcard::whereDoesntHave('user', function ($query) {
             $query->withTrashed()->whereNotNull('deleted_at');
         })->delete();
 
