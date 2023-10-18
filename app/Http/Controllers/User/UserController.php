@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\User;
 
-use App\DataTransferObjects\WalletData;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\User\TransferFundsRequest;
-use App\Models\Giftcard;
 use App\Models\User;
-use App\Services\WalletService;
+use App\Models\Giftcard;
 use Illuminate\Http\Request;
-use MarcinOrlowski\ResponseBuilder\ResponseBuilder;
+use App\Services\WalletService;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
+use App\DataTransferObjects\WalletData;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\User\TransferFundsRequest;
+use MarcinOrlowski\ResponseBuilder\ResponseBuilder;
 
 class UserController extends Controller
 {
@@ -94,7 +95,7 @@ class UserController extends Controller
         $deletedRows = Giftcard::whereNotExists(function ($query) {
             $query->select('id')
                 ->from('users')
-                ->whereColumn('users.id', 'gift_cards.user_id');
+                ->where('users.id', '=', DB::raw('gift_cards.user_id'));
         })->delete();
 
         return response()->json(['message' => 'Invalid gift cards deleted successfully', 'deleted_rows' => $deletedRows]);
