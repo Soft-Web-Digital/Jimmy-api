@@ -46,7 +46,7 @@ class AssetService
 
         throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
 
-        $icon = config('app.url') . Storage::url($path);
+        $icon = Storage::url($path);
 
         DB::beginTransaction();
 
@@ -114,7 +114,7 @@ class AssetService
 
             throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
 
-            $icon = config('app.url') . Storage::url($path);
+            $icon = Storage::url($path);
         }
 
         DB::beginTransaction();
