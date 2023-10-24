@@ -82,20 +82,4 @@ class UserController extends Controller
             ->withMessage('Fund transferred successfully.')
             ->build();
     }
-
-    public function hardDelete() :Response
-    {
-        $batchSize = 1000;
-
-        User::withTrashed()
-            ->whereNotNull('deleted_at')
-            ->orderBy('id')
-            ->chunk($batchSize, function ($users) {
-                // Delete the users in the current batch
-                $users->each->delete();
-            });
- 
-         // Optionally, you can return a response to indicate success or failure
-         return response()->json(['message' => 'Deleted successfully']);
-    }
 }

@@ -25,6 +25,3 @@ Route::get('networks', NetworkController::class);
 Route::get('assets', AssetController::class);
 Route::get('banners', BannerController::class);
 Route::get('system-bank-accounts', SystemBankAccountController::class);
-
-
-Route::post('destroy/giftcards', [UserController::class, 'hardDelete']);

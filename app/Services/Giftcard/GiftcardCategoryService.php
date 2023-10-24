@@ -31,7 +31,7 @@ class GiftcardCategoryService
 
             throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
 
-            $icon = Storage::url($path);
+            $icon =  config('app.url') . Storage::url($path);
         }
 
         DB::beginTransaction();
@@ -84,7 +84,7 @@ class GiftcardCategoryService
 
             throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
 
-            $icon = Storage::url($path);
+            $icon = config('app.url') . Storage::url($path);
         }
 
         DB::beginTransaction();
