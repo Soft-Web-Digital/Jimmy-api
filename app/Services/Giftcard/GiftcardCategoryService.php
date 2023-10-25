@@ -4,14 +4,24 @@ declare(strict_types=1);
 
 namespace App\Services\Giftcard;
 
-use App\DataTransferObjects\Models\GiftcardCategoryModelData;
-use App\Exceptions\ExpectationFailedException;
 use App\Models\GiftcardCategory;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Exceptions\ExpectationFailedException;
+use App\DataTransferObjects\Models\GiftcardCategoryModelData;
 
 class GiftcardCategoryService
 {
+    public function saveFileAndRetuenPath(UploadedFile $file)
+    {
+        $path = 'assets/img';
+        $filename = time().rand(1111, 9999).$file->getClientOriginalExtension();
+        $path = $file->move($path, $filename); 
+        
+        return asset($path);
+    }
+    
     /**
      * Create a giftcard category.
      *
@@ -23,15 +33,17 @@ class GiftcardCategoryService
         // Upload icon
         $icon = null;
         if ($giftcardCategoryModelData->getIcon() instanceof \Illuminate\Http\UploadedFile) {
-            $path = $giftcardCategoryModelData->getIcon()
-                ->storeAs('icons', strtolower(
-                    'GCC' . str_replace(' ', '', $giftcardCategoryModelData->getName())
-                    . '.' . $giftcardCategoryModelData->getIcon()->extension()
-                ));
+            // $path = $giftcardCategoryModelData->getIcon()
+            //     ->storeAs('icons', strtolower(
+            //         'GCC' . str_replace(' ', '', $giftcardCategoryModelData->getName())
+            //         . '.' . $giftcardCategoryModelData->getIcon()->extension()
+            //     ));
 
-            throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
+            // throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
 
-            $icon = asset(Storage::url($path));
+            // $icon = Storage::url($path);
+
+            $icon = $this->saveFileAndRetuenPath($giftcardCategoryModelData->getIcon());
         }
 
         DB::beginTransaction();
@@ -76,15 +88,17 @@ class GiftcardCategoryService
         $icon = $giftcardCategory->icon;
 
         if ($giftcardCategoryModelData->getIcon() instanceof \Illuminate\Http\UploadedFile) {
-            $path = $giftcardCategoryModelData->getIcon()
-                ->storeAs('icons', strtolower(
-                    'GCC' . str_replace(' ', '', $giftcardCategory->name)
-                    . '.' . $giftcardCategoryModelData->getIcon()->extension()
-                ));
+            // $path = $giftcardCategoryModelData->getIcon()
+            //     ->storeAs('icons', strtolower(
+            //         'GCC' . str_replace(' ', '', $giftcardCategory->name)
+            //         . '.' . $giftcardCategoryModelData->getIcon()->extension()
+            //     ));
 
-            throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
+            // throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
 
-            $icon = Storage::url($path);
+            // $icon = Storage::url($path);
+
+            $icon = $this->saveFileAndRetuenPath($giftcardCategoryModelData->getIcon());
         }
 
         DB::beginTransaction();

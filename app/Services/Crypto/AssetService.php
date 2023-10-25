@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Storage;
 
 class AssetService
 {
+    public function saveFileAndRetuenPath(UploadedFile $file)
+    {
+        $path = 'assets/img';
+        $filename = time().rand(1111, 9999).$file->getClientOriginalExtension();
+        $path = $file->move($path, $filename); 
+        
+        return asset($path);
+    }
     /**
      * Create a asset.
      *
@@ -39,14 +47,16 @@ class AssetService
         float|null $minSellAmount = null,
         float|null $maxSellAmount = null
     ): Asset {
-        $path = $icon->storeAs('icons', strtolower(
-            'CRY' . str_replace(' ', '', $code)
-            . '.' . $icon->extension()
-        ));
+        // $path = $icon->storeAs('icons', strtolower(
+        //     'CRY' . str_replace(' ', '', $code)
+        //     . '.' . $icon->extension()
+        // ));
 
-        throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
+        // throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
 
-        $icon = Storage::url($path);
+        // $icon = Storage::url($path);
+
+        $icon = $this->saveFileAndRetuenPath($icon);
 
         DB::beginTransaction();
 
@@ -107,14 +117,16 @@ class AssetService
         float|null $maxSellAmount = null
     ): Asset {
         if ($icon instanceof UploadedFile) {
-            $path = $icon->storeAs('icons', strtolower(
-                'CRY' . str_replace(' ', '', $code ?? $asset->code)
-                . '.' . $icon->extension()
-            ));
+            // $path = $icon->storeAs('icons', strtolower(
+            //     'CRY' . str_replace(' ', '', $code ?? $asset->code)
+            //     . '.' . $icon->extension()
+            // ));
 
-            throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
+            // throw_if($path === false, ExpectationFailedException::class, 'Icon could not be uploaded');
 
-            $icon = Storage::url($path);
+            // $icon = Storage::url($path);
+
+            $icon = $this->saveFileAndRetuenPath($icon);
         }
 
         DB::beginTransaction();
