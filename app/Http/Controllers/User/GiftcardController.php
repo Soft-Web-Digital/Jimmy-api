@@ -163,7 +163,7 @@ class GiftcardController extends Controller
             ->setPins($request->pins)
             ->setCards($request->cards);
 
-        $giftcardService->create($giftcardModelData);
+        $data = $giftcardService->create($giftcardModelData);
 
         return ResponseBuilder::asSuccess()
             ->withHttpCode(201)
@@ -171,6 +171,9 @@ class GiftcardController extends Controller
                 'Giftcard sale ' . Str::of('transaction')->plural($giftcardModelData->getQuantity())->toString()
                 . ' created successfully'
             )
+            ->withData([
+                'giftcard' => $data
+            ])
             ->build();
     }
 
