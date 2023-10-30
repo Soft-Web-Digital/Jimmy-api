@@ -77,7 +77,7 @@ class GiftcardService
      * @param \App\DataTransferObjects\Models\GiftcardModelData $giftcardModelData
      * @return void
      */
-    public function create(GiftcardModelData $giftcardModelData): void
+    public function create(GiftcardModelData $giftcardModelData): object
     {
         $breakdown = $this->breakdown($giftcardModelData);
 
@@ -182,6 +182,8 @@ class GiftcardService
             ), $giftcard));
 
             DB::commit();
+
+            return $giftcard;
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
