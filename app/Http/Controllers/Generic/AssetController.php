@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Generic;
 
-use App\Http\Controllers\Controller;
 use App\Models\Asset;
-use App\Spatie\QueryBuilder\IncludeSelectFields;
+use ImageKit\ImageKit;
 use Illuminate\Http\Request;
-use MarcinOrlowski\ResponseBuilder\ResponseBuilder;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
+use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
-use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
+use App\Spatie\QueryBuilder\IncludeSelectFields;
+use MarcinOrlowski\ResponseBuilder\ResponseBuilder;
 
 class AssetController extends Controller
 {
@@ -81,5 +83,22 @@ class AssetController extends Controller
                 'assets' => $assets,
             ])
             ->build();
+    }
+
+    public function generateSignature (Request $request) {
+
+        $imageKitPublicKey = 'public_3d4WomtWTm4CG0pD5Zy3BrB+/Lk=';
+        $imageKitPrivateKey = 'private_ciVlZHgpVTOcXuuX8Qx8KPhjqPo=';
+        $imageKitURL = 'https://ik.imagekit.io/algt38fgej';
+
+        $imageKit = new ImageKit(
+            $imageKitPublicKey,
+            $imageKitPrivateKey,
+            $imageKitURL
+        );
+
+        $signature = $imageKit->getAuthenticationParameters();
+        
+        return response()->json($signature);
     }
 }

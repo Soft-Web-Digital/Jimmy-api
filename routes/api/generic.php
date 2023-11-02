@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Generic\BankController;
 use App\Http\Controllers\Generic\AssetController;
+use App\Http\Controllers\Generic\UploadSignature;
 use App\Http\Controllers\Generic\BannerController;
 use App\Http\Controllers\Generic\CountryController;
 use App\Http\Controllers\Generic\NetworkController;
@@ -25,3 +26,6 @@ Route::get('networks', NetworkController::class);
 Route::get('assets', AssetController::class);
 Route::get('banners', BannerController::class);
 Route::get('system-bank-accounts', SystemBankAccountController::class);
+
+Route::get('image/signature', [UploadSignature::class, 'generateSignature']);
+
