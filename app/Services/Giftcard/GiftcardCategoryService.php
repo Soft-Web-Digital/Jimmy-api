@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Giftcard;
 
 use App\Models\GiftcardCategory;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Exceptions\ExpectationFailedException;
@@ -13,15 +12,6 @@ use App\DataTransferObjects\Models\GiftcardCategoryModelData;
 
 class GiftcardCategoryService
 {
-    public function saveFileAndReturnPath(UploadedFile $file): string
-    {
-        $path = 'assets/img';
-        $filename = time().rand(1111, 9999).$file->getClientOriginalExtension();
-        $file->move($path, $filename);
-
-        return asset($path.'/'.$filename);
-    }
-
     /**
      * Create a giftcard category.
      *
@@ -43,7 +33,7 @@ class GiftcardCategoryService
 
             // $icon = Storage::url($path);
 
-            $icon = $this->saveFileAndReturnPath($giftcardCategoryModelData->getIcon());
+            $icon = saveFileAndReturnPath($giftcardCategoryModelData->getIcon());
         }
 
         DB::beginTransaction();
@@ -98,7 +88,7 @@ class GiftcardCategoryService
 
             // $icon = Storage::url($path);
 
-            $icon = $this->saveFileAndReturnPath($giftcardCategoryModelData->getIcon());
+            $icon = saveFileAndReturnPath($giftcardCategoryModelData->getIcon());
         }
 
         DB::beginTransaction();

@@ -18,7 +18,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'country_id' =>  '9a645c5f-2f8c-4ba4-b6da-efc89a51e958', //Country::factory(),
+            'country_id' =>  Country::factory(), //'9a645c5f-2f8c-4ba4-b6da-efc89a51e958',
             'firstname' => fake()->firstName(),
             'lastname' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),

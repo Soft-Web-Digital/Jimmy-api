@@ -13,8 +13,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 class Giftcard extends Model implements HasMedia
 {
@@ -214,34 +216,20 @@ class Giftcard extends Model implements HasMedia
     /**
      * Get the card media.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\HigherOrderCollectionProxy|MediaCollection|Collection
+
      */
-    public function getCardMedia(): \Illuminate\Support\Collection
+    public function getCardMedia(): \Illuminate\Support\HigherOrderCollectionProxy|MediaCollection|Collection
     {
-        $cards = collect();
-
-        if ($this->created_at <= now()->parse(config('database.legacy_app_end_date'))) {
-            $cards = $this->legacyCards->map(fn ($item) => [
-                'uuid' => $item->id,
-                'file_name' => null,
-                'mime_type' => null,
-                'original_url' => $item->link,
-                'size' => null,
-            ]);
-        } else {
-            $cards = $this->getMedia()->map->only([
-                'uuid',
-                'file_name',
-                'mime_type',
-                'original_url',
-                'size',
-            ]);
-        }
-
-        $this->makeHidden([
-            'media',
-            'legacyCards',
+        $cards = $this->getMedia()->map->only([
+            'uuid',
+            'file_name',
+            'mime_type',
+            'original_url',
+            'size',
         ]);
+
+        $this->makeHidden(['media']);
 
         return $cards;
     }

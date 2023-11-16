@@ -12,15 +12,6 @@ use Illuminate\Support\Facades\Storage;
 
 class AssetService
 {
-    public function saveFileAndReturnPath(UploadedFile $file): string
-    {
-        $path = 'assets/img';
-        $filename = time().rand(1111, 9999).$file->getClientOriginalExtension();
-        $file->move($path, $filename);
-
-        return asset($path.'/'.$filename);
-    }
-
     /**
      * Create a asset.
      *
@@ -57,7 +48,7 @@ class AssetService
 
         // $icon = Storage::url($path);
 
-        $icon = $this->saveFileAndReturnPath($icon);
+        $icon = saveFileAndReturnPath($icon);
 
         DB::beginTransaction();
 
@@ -127,7 +118,7 @@ class AssetService
 
             // $icon = Storage::url($path);
 
-            $icon = $this->saveFileAndReturnPath($icon);
+            $icon = saveFileAndReturnPath($icon);
         }
 
         DB::beginTransaction();

@@ -144,7 +144,7 @@ class GiftcardController extends Controller
     public function show(string $giftcard): Response
     {
         $giftcard = QueryBuilder::for(
-            $this->giftcard->withTrashed()->with('media', 'legacyCards')
+            $this->giftcard->withTrashed()->with('media')
         )
             ->allowedIncludes([
                 AllowedInclude::custom('giftcardProduct', new IncludeRelationCallback(
