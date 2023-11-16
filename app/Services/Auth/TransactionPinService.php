@@ -51,7 +51,7 @@ class TransactionPinService
         /** @var \App\Models\TransactionPinResetCode $transactionPinResetCode */
         $transactionPinResetCode = $user->transactionPinResetCode()->first();
 
-        if (!$transactionPinResetCode || !Hash::check($code, $transactionPinResetCode->code)) { // @phpstan-ignore-line
+        if (!$transactionPinResetCode || !Hash::check($code, $transactionPinResetCode->code)) {
             throw ValidationException::withMessages([
                 'code' => [trans('auth.code.invalid')],
             ]);

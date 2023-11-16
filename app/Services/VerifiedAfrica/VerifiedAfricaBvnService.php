@@ -63,6 +63,6 @@ class VerifiedAfricaBvnService extends VerifiedAfricaBaseService implements CanV
             throw new ExpectationFailedException('Verified Africa BVN Verifier Service failed');
         }
 
-        return $verifyResponse->response->status == '00'; // @phpstan-ignore-line
+        return $verifyResponse->response->status == '00';
     }
 }

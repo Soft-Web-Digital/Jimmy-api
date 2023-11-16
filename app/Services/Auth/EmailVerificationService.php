@@ -28,7 +28,7 @@ class EmailVerificationService
         /** @var \App\Models\EmailVerificationCode $emailVerificationCode */
         $emailVerificationCode = $user->emailVerificationCode()->first();
 
-        if (!$emailVerificationCode || !Hash::check($code, $emailVerificationCode->code)) { // @phpstan-ignore-line
+        if (!$emailVerificationCode || !Hash::check($code, $emailVerificationCode->code)) {
             throw ValidationException::withMessages([
                 'code' => [trans('auth.code.invalid')],
             ]);

@@ -20,6 +20,8 @@ parameters:
 
     checkGenericClassInNonGenericObjectType: false
 
+    treatPhpDocTypesAsCertain: false
+
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php
 #

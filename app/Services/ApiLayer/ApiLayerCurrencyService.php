@@ -19,7 +19,6 @@ class ApiLayerCurrencyService extends ApiLayerBaseService implements CurrencyFil
     {
         $apiLayerCurrencies = $this->connection()->get('/exchangerates_data/symbols');
 
-        // @phpstan-ignore-next-line
         if ($apiLayerCurrencies->successful() && $apiLayerCurrencies->object()->success) {
             // @phpstan-ignore-next-line
             $currencies = collect($apiLayerCurrencies->object()->symbols)->map(function ($currency, $code) {

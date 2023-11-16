@@ -39,8 +39,8 @@ class WaverliteGiftcardCategoryService extends WaverliteBaseService implements G
     {
         $response = $this->connection()->get('/1.0/payout/gift-card/categories/list');
 
-        if ($response->successful() && $response->object()->state) { // @phpstan-ignore-line
-            return $response->object()->data; // @phpstan-ignore-line
+        if ($response->successful() && $response->object()->state) {
+            return $response->object()->data;
         }
 
         return [];

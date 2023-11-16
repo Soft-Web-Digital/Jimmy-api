@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Generic;
 
 use App\Models\Asset;
+use Illuminate\Http\JsonResponse;
 use ImageKit\ImageKit;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,7 +19,7 @@ class AssetController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param \App\Models\Asset $asset
+     * @param Asset $asset
      */
     public function __construct(public Asset $asset)
     {
@@ -27,8 +28,8 @@ class AssetController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     * @return Response
      */
     public function __invoke(Request $request): Response
     {
@@ -84,17 +85,12 @@ class AssetController extends Controller
             ->build();
     }
 
-    public function generateSignature(Request $request)
+    public function generateSignature(Request $request): JsonResponse
     {
-
-        $imageKitPublicKey = 'public_3d4WomtWTm4CG0pD5Zy3BrB+/Lk=';
-        $imageKitPrivateKey = 'private_ciVlZHgpVTOcXuuX8Qx8KPhjqPo=';
-        $imageKitURL = 'https://ik.imagekit.io/algt38fgej';
-
         $imageKit = new ImageKit(
-            $imageKitPublicKey,
-            $imageKitPrivateKey,
-            $imageKitURL
+            env('IMAGEKIT_PUBLIC_KEY'),
+            env('IMAGEKIT_PRIVATE_KEY'),
+            env('IMAGEKIT_URL_ENDPOINT')
         );
 
         $signature = $imageKit->getAuthenticationParameters();

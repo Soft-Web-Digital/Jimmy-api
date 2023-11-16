@@ -29,7 +29,7 @@ class TwoFactorLoginService
         /** @var \App\Models\TwoFaVerificationCode $twoFaVerificationCode */
         $twoFaVerificationCode = $user->twoFaVerificationCode()->first();
 
-        if (!$twoFaVerificationCode || !Hash::check($code, $twoFaVerificationCode->code)) { // @phpstan-ignore-line
+        if (!$twoFaVerificationCode || !Hash::check($code, $twoFaVerificationCode->code)) {
             throw ValidationException::withMessages([
                 'code' => [trans('auth.code.invalid')],
             ]);

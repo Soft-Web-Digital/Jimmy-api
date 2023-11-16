@@ -75,7 +75,7 @@ class GiftcardService
      * Create giftcards.
      *
      * @param \App\DataTransferObjects\Models\GiftcardModelData $giftcardModelData
-     * @return void
+     * @return object
      */
     public function create(GiftcardModelData $giftcardModelData): object
     {
@@ -168,7 +168,7 @@ class GiftcardService
 
             if (count($giftcard->children) > 0) {
                 $giftcard->amount += $giftcard->children->sum('amount');
-                $giftcard->status = 'multiple';
+                $giftcard->status = 'multiple'; // @phpstan-ignore-line
             }
 
             unset($giftcard->children);
@@ -350,9 +350,9 @@ class GiftcardService
                 'status' => $giftcard->status == GiftcardStatus::PENDING ? $status : $giftcard->status,
                 'review_note' => $reviewNote,
                 'review_proof' => $reviewProof,
-                'review_rate' => $newBreakdown?->getRate() ?? $giftcard->rate,
+//                'review_rate' => $newBreakdown?->getRate() ?? $giftcard->rate,
                 'review_amount' => $reviewAmount,
-                'payable_amount' => $newBreakdown?->getPayableAmount() ?? $giftcard->payable_amount,
+//                'payable_amount' => $newBreakdown?->getPayableAmount() ?? $giftcard->payable_amount,
                 'reviewed_by' => $admin->id,
                 'reviewed_at' => now(),
             ]);

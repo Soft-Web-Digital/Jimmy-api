@@ -22,14 +22,14 @@ class GiftcardApprovedNotification extends Notification implements ShouldQueue
      * @param \App\Enums\GiftcardTradeType $tradeType
      * @param string $reference
      * @param string|null $reviewNote
-     * @param array<int, string>|null $reviewProof
+     * @param array<int, string>|null|string $reviewProof
      * @return void
      */
     public function __construct(
         private readonly GiftcardTradeType $tradeType,
         private readonly string $reference,
         private readonly string|null $reviewNote = null,
-        private readonly array|null $reviewProof = null
+        private readonly array|null|string $reviewProof = null
     ) {
     }
 

@@ -13,13 +13,13 @@ use App\DataTransferObjects\Models\GiftcardCategoryModelData;
 
 class GiftcardCategoryService
 {
-    public function saveFileAndRetuenPath(UploadedFile $file)
+    public function saveFileAndReturnPath(UploadedFile $file): string
     {
         $path = 'assets/img';
         $filename = time().rand(1111, 9999).$file->getClientOriginalExtension();
-        $path = $file->move($path, $filename);
+        $file->move($path, $filename);
 
-        return asset($path);
+        return asset($path.'/'.$filename);
     }
 
     /**
@@ -43,7 +43,7 @@ class GiftcardCategoryService
 
             // $icon = Storage::url($path);
 
-            $icon = $this->saveFileAndRetuenPath($giftcardCategoryModelData->getIcon());
+            $icon = $this->saveFileAndReturnPath($giftcardCategoryModelData->getIcon());
         }
 
         DB::beginTransaction();
@@ -98,7 +98,7 @@ class GiftcardCategoryService
 
             // $icon = Storage::url($path);
 
-            $icon = $this->saveFileAndRetuenPath($giftcardCategoryModelData->getIcon());
+            $icon = $this->saveFileAndReturnPath($giftcardCategoryModelData->getIcon());
         }
 
         DB::beginTransaction();

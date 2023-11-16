@@ -383,7 +383,7 @@ class AssetTransactionService
             ->get();
     }
 
-    public function createInvoice(AssetTransaction $assetTransaction, User $user)
+    public function createInvoice(AssetTransaction $assetTransaction, User $user): void
     {
         $data = [
             'price' => $assetTransaction->amount,

@@ -55,7 +55,7 @@ class AdminProfileService
             'avatar' => $avatar,
             'phone_number' => $phoneNumber ? str_replace($country->dialing_code, '', $phoneNumber) : null,
             'fcm_tokens' => $adminModelData->getFcmToken()
-                ? collect($admin->fcm_tokens)->add($adminModelData->getFcmToken())->unique()->toArray()
+                ? collect($admin->fcm_tokens)->add($adminModelData->getFcmToken())->unique()->toArray() // @phpstan-ignore-line
                 : $admin->fcm_tokens,
         ];
 

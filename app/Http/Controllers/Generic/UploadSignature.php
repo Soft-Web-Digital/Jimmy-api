@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Generic;
 
+use Illuminate\Http\JsonResponse;
 use ImageKit\ImageKit;
 use App\Http\Controllers\Controller;
 
 class UploadSignature extends Controller
 {
-    public function generateSignature()
+    public function generateSignature(): JsonResponse
     {
 
         $imageKit = new ImageKit(

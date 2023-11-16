@@ -22,14 +22,14 @@ class AssetTransactionApprovedNotification extends Notification implements Shoul
      * @param \App\Enums\AssetTransactionTradeType $tradeType
      * @param string $reference
      * @param string|null $reviewNote
-     * @param array<int, string>|null $reviewProof
+     * @param array<int, string>|null|string $reviewProof
      * @return void
      */
     public function __construct(
         private readonly AssetTransactionTradeType $tradeType,
         private readonly string $reference,
         private readonly string|null $reviewNote = null,
-        private readonly array|null $reviewProof = null
+        private readonly array|null|string $reviewProof = null
     ) {
     }
 

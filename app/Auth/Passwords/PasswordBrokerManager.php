@@ -23,7 +23,6 @@ class PasswordBrokerManager extends PasswordsPasswordBrokerManager
     {
         $config = $this->getConfig($name);
 
-        // @phpstan-ignore-next-line
         if (is_null($config)) {
             throw new InvalidArgumentException("Password resetter [{$name}] is not defined.");
         }

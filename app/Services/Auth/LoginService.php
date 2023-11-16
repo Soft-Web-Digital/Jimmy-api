@@ -31,7 +31,7 @@ class LoginService
         $user = $user->query()->where($usernameColumn, $username)->first();
 
         // Confirm the credentials
-        if (!$user || !Hash::check($password, $user->password)) { // @phpstan-ignore-line
+        if (!$user || !Hash::check($password, $user->password)) {
             throw ValidationException::withMessages([
                 $usernameColumn => [trans('auth.failed')],
             ]);
