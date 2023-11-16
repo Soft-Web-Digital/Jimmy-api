@@ -6,7 +6,6 @@ use App\Models\Asset;
 use ImageKit\ImageKit;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedInclude;
@@ -85,7 +84,8 @@ class AssetController extends Controller
             ->build();
     }
 
-    public function generateSignature (Request $request) {
+    public function generateSignature(Request $request)
+    {
 
         $imageKitPublicKey = 'public_3d4WomtWTm4CG0pD5Zy3BrB+/Lk=';
         $imageKitPrivateKey = 'private_ciVlZHgpVTOcXuuX8Qx8KPhjqPo=';
@@ -98,7 +98,7 @@ class AssetController extends Controller
         );
 
         $signature = $imageKit->getAuthenticationParameters();
-        
+
         return response()->json($signature);
     }
 }

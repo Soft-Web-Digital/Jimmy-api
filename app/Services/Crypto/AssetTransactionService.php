@@ -267,14 +267,14 @@ class AssetTransactionService
             $status = AssetTransactionStatus::APPROVED;
 
             if (!$completeApproval) {
-//                $newBreakdown = $this->breakdown(
-//                    (new AssetTransactionModelData())
-//                        ->setTradeType($assetTransaction->trade_type)
-//                        ->setAssetId($assetTransaction->asset_id)
-//                        ->setAssetAmount($assetTransaction->asset_amount)
-//                        ->setReviewAmount($reviewAmount),
-//                    false
-//                );
+                //                $newBreakdown = $this->breakdown(
+                //                    (new AssetTransactionModelData())
+                //                        ->setTradeType($assetTransaction->trade_type)
+                //                        ->setAssetId($assetTransaction->asset_id)
+                //                        ->setAssetAmount($assetTransaction->asset_amount)
+                //                        ->setReviewAmount($reviewAmount),
+                //                    false
+                //                );
                 $status = AssetTransactionStatus::PARTIALLYAPPROVED;
             }
 

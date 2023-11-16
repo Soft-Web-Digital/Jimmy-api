@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
-use App\Models\Giftcard;
 use Illuminate\Http\Request;
 use App\Services\WalletService;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\DataTransferObjects\WalletData;

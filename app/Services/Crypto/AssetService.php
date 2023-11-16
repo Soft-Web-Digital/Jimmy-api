@@ -16,8 +16,8 @@ class AssetService
     {
         $path = 'assets/img';
         $filename = time().rand(1111, 9999).$file->getClientOriginalExtension();
-        $path = $file->move($path, $filename); 
-        
+        $path = $file->move($path, $filename);
+
         return asset($path);
     }
     /**

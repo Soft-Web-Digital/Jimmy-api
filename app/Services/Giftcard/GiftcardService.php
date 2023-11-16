@@ -141,10 +141,10 @@ class GiftcardService
                     $cardCount = (int) round(count($files) / $giftcardModelData->getQuantity());
 
                     while (isset($files[$currentFileIndex]) && $cardCount > 0) {
-//                        /** @var \Illuminate\Http\UploadedFile $file */
+                        //                        /** @var \Illuminate\Http\UploadedFile $file */
                         $file = $files[$currentFileIndex];
 
-//                        $giftcard->addMedia($file)->toMediaCollection();
+                        //                        $giftcard->addMedia($file)->toMediaCollection();
                         $giftcard->addMediaFromUrl($file)->toMediaCollection();
 
                         $cardCount--;
@@ -317,14 +317,14 @@ class GiftcardService
             $status = GiftcardStatus::APPROVED;
 
             if (!$completeApproval) {
-//                $newBreakdown = $this->breakdown(
-//                    (new GiftcardModelData())
-//                        ->setGiftcardProductId($giftcard->giftcard_product_id)
-//                        ->setTradeType($giftcard->trade_type)
-//                        ->setAmount($giftcard->amount)
-//                        ->setReviewAmount($reviewAmount),
-//                    false
-//                );
+                //                $newBreakdown = $this->breakdown(
+                //                    (new GiftcardModelData())
+                //                        ->setGiftcardProductId($giftcard->giftcard_product_id)
+                //                        ->setTradeType($giftcard->trade_type)
+                //                        ->setAmount($giftcard->amount)
+                //                        ->setReviewAmount($reviewAmount),
+                //                    false
+                //                );
                 $status = GiftcardStatus::PARTIALLYAPPROVED;
             }
 

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Generic\BankController;
 use App\Http\Controllers\Generic\AssetController;
 use App\Http\Controllers\Generic\UploadSignature;
@@ -28,4 +27,3 @@ Route::get('banners', BannerController::class);
 Route::get('system-bank-accounts', SystemBankAccountController::class);
 
 Route::get('image/signature', [UploadSignature::class, 'generateSignature']);
-

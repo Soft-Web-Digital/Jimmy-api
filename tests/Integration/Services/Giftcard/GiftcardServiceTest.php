@@ -272,8 +272,8 @@ it('can delete a giftcard trade', function ($cardType) {
 
     // Confirm card was uploaded
     if ($cardType == GiftcardCardType::PHYSICAL->value) {
-//        $card = UploadedFile::fake()->image('card.jpg');
-//        $giftcard->addMedia($card)->toMediaCollection();
+        //        $card = UploadedFile::fake()->image('card.jpg');
+        //        $giftcard->addMedia($card)->toMediaCollection();
         $giftcard->addMediaFromUrl(fake()->imageUrl())->toMediaCollection();
         test()->assertDatabaseCount('media', 1);
     }

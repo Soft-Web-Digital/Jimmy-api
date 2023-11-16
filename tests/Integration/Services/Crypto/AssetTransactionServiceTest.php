@@ -129,11 +129,11 @@ it('can mark an asset transaction as transferred', function ($tradeType) {
     Notification::fake();
 
     $receipt = fake()->imageUrl();
-//    $receipt = UploadedFile::fake()->image('receipt.jpg');
+    //    $receipt = UploadedFile::fake()->image('receipt.jpg');
 
     $transfer = (new AssetTransactionService())->transfer($assetTransaction, $receipt);
 
-//    Storage::assertExists("receipts/{$receipt->hashName()}");
+    //    Storage::assertExists("receipts/{$receipt->hashName()}");
 
     Event::assertDispatched(AdminNotified::class);
 
