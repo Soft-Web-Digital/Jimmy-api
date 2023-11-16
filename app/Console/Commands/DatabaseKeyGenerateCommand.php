@@ -15,7 +15,7 @@ class DatabaseKeyGenerateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ksb_db:key
+    protected $signature = 'db:key
                 {--show : Display the key instead of modifying files}
                 {--force : Force the operation to run when in production}';
 

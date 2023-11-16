@@ -15,7 +15,7 @@ class GenerateRefCodeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ksb_ref:generate';
+    protected $signature = 'ref:generate';
 
     /**
      * The console command description.
@@ -34,7 +34,7 @@ class GenerateRefCodeCommand extends Command
         DB::beginTransaction();
         foreach (User::query()->whereNull('ref_code')->get() as $user) {
             do {
-                $ref = 'KSB-' . Str::upper(Str::random(6));
+                $ref = 'JX-' . Str::upper(Str::random(6));
             } while (User::query()->where('ref_code', $ref)->exists());
             $user->update(['ref_code' => $ref]);
         }

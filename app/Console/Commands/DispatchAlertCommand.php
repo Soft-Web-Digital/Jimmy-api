@@ -15,7 +15,7 @@ class DispatchAlertCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ksb_alert:dispatch';
+    protected $signature = 'alert:dispatch';
 
     /**
      * The console command description.

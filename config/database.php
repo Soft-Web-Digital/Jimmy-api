@@ -158,11 +158,4 @@ return [
     |
     */
     'encryption_key' => env('DB_ENCRYPTION_KEY', env('APP_KEY')),
-
-
-    /*
-     | Legacy App
-     | Upgrade from KSBTech 1.0 (Firebase)
-     */
-    'legacy_app_end_date' => '2023-03-11',
 ];

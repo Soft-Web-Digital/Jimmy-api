@@ -12,7 +12,7 @@ class UpdateServicedGiftcardCategoriesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ksb_giftcard:categories';
+    protected $signature = 'giftcard:categories';
 
     /**
      * The console command description.

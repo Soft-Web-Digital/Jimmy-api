@@ -12,7 +12,7 @@ class UpdateCurrenciesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ksb_currencies:update-list';
+    protected $signature = 'currencies:update-list';
 
     /**
      * The console command description.

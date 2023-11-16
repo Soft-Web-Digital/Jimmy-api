@@ -223,7 +223,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'frontend' => [
-        'url' => env('APP_FRONTEND_URL', 'https://ksbtech.com.ng'),
+        'url' => env('APP_FRONTEND_URL'),
     ],
 
 ];

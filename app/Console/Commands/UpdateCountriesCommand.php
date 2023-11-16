@@ -12,7 +12,7 @@ class UpdateCountriesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ksb_countries:update-list';
+    protected $signature = 'countries:update-list';
 
     /**
      * The console command description.

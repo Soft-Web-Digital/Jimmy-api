@@ -12,7 +12,7 @@ class UpdateBanksCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ksb_banks:update-list';
+    protected $signature = 'banks:update-list';
 
     /**
      * The console command description.

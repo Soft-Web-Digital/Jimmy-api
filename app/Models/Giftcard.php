@@ -287,17 +287,6 @@ class Giftcard extends Model implements HasMedia
     }
 
     /**
-     * Get the media links.
-     *
-     * @deprecated v1.0 KSBTECH App before this app
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function legacyCards(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(GiftcardLegacyMedia::class, 'giftcard_id', 'id');
-    }
-
-    /**
      * Get the children giftcards.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

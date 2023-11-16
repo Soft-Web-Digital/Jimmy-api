@@ -103,7 +103,7 @@ class User extends Authenticable implements
         parent::boot();
 
         do {
-            $ref = 'KSB-' . Str::upper(Str::random(6));
+            $ref = 'JX-' . Str::upper(Str::random(6));
         } while (static::query()->where('ref_code', $ref)->exists());
 
         static::creating(function ($user) use ($ref) {

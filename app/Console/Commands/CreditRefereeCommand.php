@@ -18,7 +18,7 @@ class CreditRefereeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ksb_ref:credit';
+    protected $signature = 'ref:credit';
 
     /**
      * The console command description.

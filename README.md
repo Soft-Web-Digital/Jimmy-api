@@ -1,3 +1,3 @@
-# KSB Tech
+# Jimmy Xchange
 
-[![Actions Status](https://github.com/lavendar77/ksbtech/workflows/CI/badge.svg)](https://github.com/lavendar77/ksbtech/actions)
+[![Actions Status](https://github.com/Soft-Web-Digital/Jimmy-api/workflows/CI/badge.svg)](https://github.com/Soft-Web-Digital/Jimmy-api/actions)
