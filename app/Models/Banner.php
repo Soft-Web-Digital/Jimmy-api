@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\MorphMapTrait;
 use App\Traits\UUID;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -98,4 +99,21 @@ class Banner extends Model
     {
         return $this->belongsTo(Admin::class);
     }
+
+    /**
+     * @return Attribute
+     */
+    public function previewImage(): Attribute
+    {
+        return Attribute::get(fn ($value) => $value ? asset($value) : $value);
+    }
+
+    /**
+     * @return Attribute
+     */
+    public function featuredImage(): Attribute
+    {
+        return Attribute::get(fn ($value) => $value ? asset($value) : $value);
+    }
+
 }
