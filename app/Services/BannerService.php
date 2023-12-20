@@ -36,8 +36,8 @@ class BannerService
             'Featured image could not be uploaded'
         );
 
-        $previewImage = Storage::url($previewImagePath);
-        $featuredImage = Storage::url($featuredImagePath);
+        $previewImage = saveFileAndReturnPath($previewImage);
+        $featuredImage = saveFileAndReturnPath($featuredImage);
 
         return Banner::query()->create([
             'admin_id' => $admin->id,

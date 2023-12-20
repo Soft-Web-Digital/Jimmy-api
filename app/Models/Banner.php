@@ -99,21 +99,4 @@ class Banner extends Model
     {
         return $this->belongsTo(Admin::class);
     }
-
-    /**
-     * @return Attribute
-     */
-    public function previewImage(): Attribute
-    {
-        return Attribute::get(fn ($value) => $value ? asset($value) : $value);
-    }
-
-    /**
-     * @return Attribute
-     */
-    public function featuredImage(): Attribute
-    {
-        return Attribute::get(fn ($value) => $value ? asset($value) : $value);
-    }
-
 }
