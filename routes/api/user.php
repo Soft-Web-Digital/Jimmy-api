@@ -20,25 +20,30 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\WalletTransactionController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('register', RegisterController::class);
-Route::post('login', [LoginController::class, 'login']);
-Route::post('social-auth', SocialAuthController::class);
+Route::middleware('throttle:3,1')->group(function () {
+    Route::post('register', RegisterController::class);
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post('social-auth', SocialAuthController::class);
 
-// Password reset
-Route::post('password/forgot', [ResetPasswordController::class, 'forgot']);
-Route::post('password/verify', [ResetPasswordController::class, 'verify']);
-Route::post('password/reset', [ResetPasswordController::class, 'reset']);
+    // Password reset
+    Route::post('password/forgot', [ResetPasswordController::class, 'forgot']);
+    Route::post('password/verify', [ResetPasswordController::class, 'verify']);
+    Route::post('password/reset', [ResetPasswordController::class, 'reset']);
+});
 
 Route::middleware('auth:api_user')->group(function () {
     Route::get('/', [ProfileController::class, 'index']);
 
-    Route::post('logout', [LoginController::class, 'logout']);
-    Route::post('logout-others', [LoginController::class, 'logoutOtherDevices']);
+    Route::middleware('throttle:3,1')->group(function () {
+        // Two-FA Authentication
+        Route::middleware('auth.two_fa:0')->group(function () {
+            Route::post('verify-two-fa', [TwoFactorLoginController::class, 'verify']);
+            Route::post('resend-two-fa', [TwoFactorLoginController::class, 'resend'])->middleware('throttle:resend');
+        });
 
-    // Two-FA Authentication
-    Route::middleware('auth.two_fa:0')->group(function () {
-        Route::post('verify-two-fa', [TwoFactorLoginController::class, 'verify']);
-        Route::post('resend-two-fa', [TwoFactorLoginController::class, 'resend'])->middleware('throttle:resend');
+        // Email verification
+        Route::post('email/verify', [VerificationController::class, 'verify']);
+        Route::post('email/resend', [VerificationController::class, 'resend'])->middleware('throttle:resend');
     });
 
     // Email verification
