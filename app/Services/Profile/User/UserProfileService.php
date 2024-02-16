@@ -59,7 +59,7 @@ class UserProfileService
             'phone_number' => $phoneNumber ? str_replace($country->dialing_code, '', $phoneNumber) : null,
             'date_of_birth' => $userModelData->getDateOfBirth() ?? $user->date_of_birth,
             'fcm_tokens' => $userModelData->getFcmToken()
-                ? collect($user->fcm_tokens)->add($userModelData->getFcmToken())->unique()->toArray()
+                ? collect($user->fcm_tokens)->add($userModelData->getFcmToken())->unique()->toArray() // @phpstan-ignore-line
                 : $user->fcm_tokens,
         ];
         $user->updateOrFail([...$data, ...[

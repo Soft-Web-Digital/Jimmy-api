@@ -2,8 +2,8 @@
 
 namespace App\Notifications\User;
 
-use App\Enums\AssetTransactionTradeType;
 use App\Enums\Queue;
+use App\Models\AssetTransaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -19,18 +19,12 @@ class AssetTransactionDeclinedNotification extends Notification implements Shoul
     /**
      * Create a new notification instance.
      *
-     * @param \App\Enums\AssetTransactionTradeType $tradeType
-     * @param string $reference
-     * @param string|null $reviewNote
-     * @param array<int, string>|null|string $reviewProof
+     * @param \App\Models\AssetTransaction $transaction
      * @return void
      */
-    public function __construct(
-        private readonly AssetTransactionTradeType $tradeType,
-        private readonly string $reference,
-        private readonly string|null $reviewNote = null,
-        private readonly array|null|string $reviewProof = null
-    ) {
+    public function __construct(private readonly AssetTransaction $transaction)
+    {
+        //
     }
 
     /**
@@ -67,21 +61,17 @@ class AssetTransactionDeclinedNotification extends Notification implements Shoul
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject(Str::headline("Asset {$this->tradeType->value} transaction declined"))
-            ->line(new HtmlString(
-                "This is to notify you that your asset {$this->tradeType->value} transaction "
-                . "with reference <b>{$this->reference}</b> has been declined."
-            ))
-            ->lineIf(!is_null($this->reviewNote), new HtmlString("Reason: <i>{$this->reviewNote}</i>"))
-            ->when(
-                $this->reviewProof,
-                function (MailMessage $mailMessage) {
-                    foreach ($this->reviewProof as $proof) {
-                        $mailMessage->attach($proof);
-                    }
-                }
+            ->subject(Str::headline("$ {$this->transaction->amount} Asset {$this->transaction->trade_type->value} transaction declined"))
+            ->greeting("Dear {$this->transaction->user?->firstname},")
+            ->line(
+                "Your asset buy transaction of ($ {$this->transaction->amount}) for " .
+                    "({$this->transaction->asset->name}) has been declined by the admin."
             )
-            ->line('Please visit your dashboard to learn more.');
+            ->line('Please contact support for more information or complaints.')
+            ->lineIf(!is_null($this->transaction->review_note), new HtmlString(
+                'Why is my transaction declined? <br>' .
+                "Reason: <i>{$this->transaction->review_note}</i>"
+            ));
     }
 
     /**
@@ -93,9 +83,9 @@ class AssetTransactionDeclinedNotification extends Notification implements Shoul
     public function toArray($notifiable)
     {
         return [
-            'title' => Str::headline("Asset {$this->tradeType->value} transaction declined"),
-            'body' => "Your asset {$this->tradeType->value} transaction "
-                . "with reference {$this->reference} has been declined.",
+            'title' => Str::headline("Asset {$this->transaction->trade_ype->value} transaction declined"),
+            'body' => "Your asset {$this->transaction->trade_ype->value} transaction "
+                . "with reference {$this->transaction->reference} has been declined.",
         ];
     }
 
@@ -110,10 +100,10 @@ class AssetTransactionDeclinedNotification extends Notification implements Shoul
         $deviceTokens = is_array($notifiable->fcm_tokens) ? $notifiable->fcm_tokens : [$notifiable->fcm_tokens];
 
         return (new FirebaseMessage())
-            ->withTitle(Str::headline("Asset {$this->tradeType->value} transaction declined"))
+            ->withTitle(Str::headline("Asset {$this->transaction->trade_type->value} transaction declined"))
             ->withBody(
-                "Your asset {$this->tradeType->value} transaction "
-                . "with reference {$this->reference} has been declined."
+                "Your asset {$this->transaction->trade_type->value} transaction "
+                . "with reference {$this->transaction->reference} has been declined."
             )
             ->asNotification($deviceTokens);
     }

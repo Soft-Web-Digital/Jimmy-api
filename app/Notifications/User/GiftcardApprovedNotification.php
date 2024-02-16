@@ -4,6 +4,7 @@ namespace App\Notifications\User;
 
 use App\Enums\GiftcardTradeType;
 use App\Enums\Queue;
+use App\Models\Giftcard;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -19,18 +20,12 @@ class GiftcardApprovedNotification extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param \App\Enums\GiftcardTradeType $tradeType
-     * @param string $reference
-     * @param string|null $reviewNote
-     * @param array<int, string>|null|string $reviewProof
+     * @param \App\Models\Giftcard $transaction
      * @return void
      */
-    public function __construct(
-        private readonly GiftcardTradeType $tradeType,
-        private readonly string $reference,
-        private readonly string|null $reviewNote = null,
-        private readonly array|null|string $reviewProof = null
-    ) {
+    public function __construct(private readonly Giftcard $transaction)
+    {
+        //
     }
 
     /**
@@ -67,21 +62,27 @@ class GiftcardApprovedNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject(Str::headline("Giftcard {$this->tradeType->value} transaction approved"))
-            ->line(new HtmlString(
-                "This is to notify you that your giftcard {$this->tradeType->value} transaction "
-                . "with reference <b>{$this->reference}</b> has been approved."
+            ->subject(Str::headline("$ {$this->transaction->amount} Giftcard {$this->transaction->trade_type->value} transaction completed"))
+            ->greeting("Dear {$this->transaction->user?->firstname},")
+            ->lineIf($this->transaction->trade_type == GiftcardTradeType::SELL, new HtmlString(
+                "Your giftcard sale of ($ {$this->transaction->amount}) has been completed "
+                . 'successfully and the Naira equivalent has been credited into your account.'
             ))
-            ->lineIf(!is_null($this->reviewNote), new HtmlString("Reason: <i>{$this->reviewNote}</i>"))
-            ->when(
-                $this->reviewProof,
-                function (MailMessage $mailMessage) {
-                    foreach ($this->reviewProof as $proof) {
-                        $mailMessage->attach($proof);
-                    }
-                }
-            )
-            ->line('Please visit your dashboard to learn more.');
+            ->line('Please find a full summary of your transaction below;')
+            ->lineif($this->transaction->trade_type == GiftcardTradeType::SELL, new HtmlString(
+                'Transaction details: <br> ' .
+                "Transaction ID: {$this->transaction->reference} <br>" .
+                "Asset name: {$this->transaction->giftcardProduct->giftcardCategory->name} ({$this->transaction->giftcardProduct->name}) <br>" .
+                "Rate: {$this->transaction->rate} <br>" .
+                "Service charge: {$this->transaction->service_charge} <br>" .
+                "Asset amount: $ {$this->transaction->amount} <br>" .
+                'Amount in Naira: NGN ' . number_format($this->transaction->payable_amount, 2) . ' <br><br>' .
+                'Bank details: <br>' .
+                "Bank name: {$this->transaction->bank->name} <br>" .
+                "Account number: {$this->transaction->account_number} <br>" .
+                "Account name: {$this->transaction->account_name}"
+            ))
+            ->line('Thank you for choosing Jimmy Xchange.');
     }
 
     /**
@@ -93,9 +94,9 @@ class GiftcardApprovedNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'title' => Str::headline("Giftcard {$this->tradeType->value} transaction approved"),
-            'body' => "Your giftcard {$this->tradeType->value} transaction "
-                . "with reference {$this->reference} has been approved.",
+            'title' => Str::headline("Giftcard {$this->transaction->trade_type->value} transaction approved"),
+            'body' => "Your giftcard {$this->transaction->trade_type->value} transaction "
+                . "with reference {$this->transaction->reference} has been approved.",
         ];
     }
 
@@ -110,10 +111,10 @@ class GiftcardApprovedNotification extends Notification implements ShouldQueue
         $deviceTokens = is_array($notifiable->fcm_tokens) ? $notifiable->fcm_tokens : [$notifiable->fcm_tokens];
 
         return (new FirebaseMessage())
-            ->withTitle(Str::headline("Giftcard {$this->tradeType->value} transaction approved"))
+            ->withTitle(Str::headline("Giftcard {$this->transaction->trade_type->value} transaction approved"))
             ->withBody(
-                "Your giftcard {$this->tradeType->value} transaction "
-                . "with reference {$this->reference} has been approved."
+                "Your giftcard {$this->transaction->trade_type->value} transaction "
+                . "with reference {$this->transaction->reference} has been approved."
             )
             ->asNotification($deviceTokens);
     }

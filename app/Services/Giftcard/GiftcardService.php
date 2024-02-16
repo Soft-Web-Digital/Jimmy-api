@@ -357,12 +357,7 @@ class GiftcardService
                 'reviewed_at' => now(),
             ]);
 
-            $giftcard->notifyUser(new GiftcardApprovedNotification(
-                $giftcard->trade_type,
-                $giftcard->reference,
-                $giftcard->review_note,
-                $giftcard->review_proof
-            ));
+            $giftcard->notifyUser(new GiftcardApprovedNotification($giftcard));
 
             if ($completeApproval) {
                 $giftcard->creditReferee();

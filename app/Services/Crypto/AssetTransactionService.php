@@ -214,14 +214,7 @@ class AssetTransactionService
                 'reviewed_at' => now(),
             ]);
 
-            $assetTransaction->notifyUser(
-                new AssetTransactionDeclinedNotification(
-                    $assetTransaction->trade_type,
-                    $assetTransaction->reference,
-                    $assetTransaction->review_note,
-                    $assetTransaction->review_proof
-                )
-            );
+            $assetTransaction->notifyUser(new AssetTransactionDeclinedNotification($assetTransaction));
 
             DB::commit();
         } catch (\Exception $e) {
@@ -294,14 +287,7 @@ class AssetTransactionService
                 $assetTransaction->creditReferee();
             }
 
-            $assetTransaction->notifyUser(
-                new AssetTransactionApprovedNotification(
-                    $assetTransaction->trade_type,
-                    $assetTransaction->reference,
-                    $assetTransaction->review_note,
-                    $assetTransaction->review_proof
-                )
-            );
+            $assetTransaction->notifyUser(new AssetTransactionApprovedNotification($assetTransaction));
 
             DB::commit();
         } catch (\Exception $e) {

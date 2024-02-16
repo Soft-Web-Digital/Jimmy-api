@@ -4,6 +4,7 @@ namespace App\Notifications\User;
 
 use App\Enums\AssetTransactionTradeType;
 use App\Enums\Queue;
+use App\Models\AssetTransaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -19,18 +20,12 @@ class AssetTransactionApprovedNotification extends Notification implements Shoul
     /**
      * Create a new notification instance.
      *
-     * @param \App\Enums\AssetTransactionTradeType $tradeType
-     * @param string $reference
-     * @param string|null $reviewNote
-     * @param array<int, string>|null|string $reviewProof
+     * @param \App\Models\AssetTransaction $transaction
      * @return void
      */
-    public function __construct(
-        private readonly AssetTransactionTradeType $tradeType,
-        private readonly string $reference,
-        private readonly string|null $reviewNote = null,
-        private readonly array|null|string $reviewProof = null
-    ) {
+    public function __construct(private readonly AssetTransaction $transaction)
+    {
+        //
     }
 
     /**
@@ -67,21 +62,41 @@ class AssetTransactionApprovedNotification extends Notification implements Shoul
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject(Str::headline("Asset {$this->tradeType->value} transaction approved"))
-            ->line(new HtmlString(
-                "This is to notify you that your asset {$this->tradeType->value} transaction "
-                . "with reference <b>{$this->reference}</b> has been approved."
+            ->subject(Str::headline("$ {$this->transaction->amount} Asset {$this->transaction->trade_type->value} transaction completed"))
+            ->greeting("Dear {$this->transaction->user?->firstname},")
+            ->lineIf($this->transaction->trade_type == AssetTransactionTradeType::SELL, new HtmlString(
+                "Your asset sell transaction of ($ {$this->transaction->amount}) has been completed "
+                . 'successfully and the Naira equivalent has been credited into your account.'
             ))
-            ->lineIf(!is_null($this->reviewNote), new HtmlString("Reason: <i>{$this->reviewNote}</i>"))
-            ->when(
-                $this->reviewProof,
-                function (MailMessage $mailMessage) {
-                    foreach ($this->reviewProof as $proof) {
-                        $mailMessage->attach($proof);
-                    }
-                }
-            )
-            ->line('Please visit your dashboard to learn more.');
+            ->lineIf($this->transaction->trade_type == AssetTransactionTradeType::BUY, new HtmlString(
+                "Your asset buy transaction of ($ {$this->transaction->amount}) has been completed "
+                . 'successfully and the asset equivalent has been sent into your wallet.'
+            ))
+            ->line('Please find a full summary of your transaction below;')
+            ->lineif($this->transaction->trade_type == AssetTransactionTradeType::SELL, new HtmlString(
+                'Transaction details: <br> ' .
+                "Transaction ID: {$this->transaction->reference} <br>" .
+                "Asset name: {$this->transaction->asset->name} ({$this->transaction->network->name}) <br>" .
+                "Rate: {$this->transaction->rate} <br>" .
+                "Service charge: {$this->transaction->service_charge} <br>" .
+                "Asset amount: $ {$this->transaction->amount} <br>" .
+                'Amount in Naira: NGN ' . number_format($this->transaction->payable_amount, 2) . ' <br><br>' .
+                'Bank details: <br>' .
+                "Bank name: {$this->transaction->bank->name} <br>" .
+                "Account number: {$this->transaction->account_number} <br>" .
+                "Account name: {$this->transaction->account_name}"
+            ))
+            ->lineif($this->transaction->trade_type == AssetTransactionTradeType::BUY, new HtmlString(
+                'Transaction details: <br> ' .
+                "Transaction ID: {$this->transaction->reference} <br>" .
+                "Asset name: {$this->transaction->asset->name} ({$this->transaction->network->name}) <br>" .
+                "Rate: {$this->transaction->rate} <br>" .
+                "Service charge: {$this->transaction->service_charge} <br>" .
+                "Asset amount: $ {$this->transaction->amount} <br>" .
+                'Amount in Naira: NGN ' . number_format($this->transaction->payable_amount, 2) . ' <br><br>' .
+                "Wallet Address: {$this->transaction->wallet_address}"
+            ))
+            ->line('Thank you for choosing Jimmy Xchange.');
     }
 
     /**
@@ -93,9 +108,9 @@ class AssetTransactionApprovedNotification extends Notification implements Shoul
     public function toArray($notifiable)
     {
         return [
-            'title' => Str::headline("Asset {$this->tradeType->value} transaction approved"),
-            'body' => "Your asset {$this->tradeType->value} transaction "
-                . "with reference {$this->reference} has been approved.",
+            'title' => Str::headline("Asset {$this->transaction->trade_type->value} transaction completed"),
+            'body' => "Your asset {$this->transaction->trade_type->value} transaction "
+                . "with reference {$this->transaction->reference} has been completed.",
         ];
     }
 
@@ -109,10 +124,10 @@ class AssetTransactionApprovedNotification extends Notification implements Shoul
         $deviceTokens = is_array($notifiable->fcm_tokens) ? $notifiable->fcm_tokens : [$notifiable->fcm_tokens];
 
         return (new FirebaseMessage())
-            ->withTitle(Str::headline("Asset {$this->tradeType->value} transaction approved"))
+            ->withTitle(Str::headline("Asset {$this->transaction->trade_type->value} transaction completed"))
             ->withBody(
-                "Your asset {$this->tradeType->value} transaction "
-                . "with reference {$this->reference} has been approved."
+                "Your asset {$this->transaction->trade_type->value} transaction "
+                . "with reference {$this->transaction->reference} has been completed."
             )
             ->asNotification($deviceTokens);
     }
