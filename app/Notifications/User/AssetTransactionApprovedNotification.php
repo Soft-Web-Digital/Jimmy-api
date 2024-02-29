@@ -62,14 +62,14 @@ class AssetTransactionApprovedNotification extends Notification implements Shoul
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject(Str::headline("$ {$this->transaction->amount} Asset {$this->transaction->trade_type->value} transaction completed"))
+            ->subject(Str::headline("$ {$this->transaction->asset_amount} Asset {$this->transaction->trade_type->value} transaction completed"))
             ->greeting("Dear {$this->transaction->user?->firstname},")
             ->lineIf($this->transaction->trade_type == AssetTransactionTradeType::SELL, new HtmlString(
-                "Your asset sell transaction of ($ {$this->transaction->amount}) has been completed "
+                "Your asset sell transaction of ($ {$this->transaction->asset_amount}) has been completed "
                 . 'successfully and the Naira equivalent has been credited into your account.'
             ))
             ->lineIf($this->transaction->trade_type == AssetTransactionTradeType::BUY, new HtmlString(
-                "Your asset buy transaction of ($ {$this->transaction->amount}) has been completed "
+                "Your asset buy transaction of ($ {$this->transaction->asset_amount}) has been completed "
                 . 'successfully and the asset equivalent has been sent into your wallet.'
             ))
             ->line('Please find a full summary of your transaction below;')
@@ -79,7 +79,7 @@ class AssetTransactionApprovedNotification extends Notification implements Shoul
                 "Asset name: {$this->transaction->asset->name} ({$this->transaction->network->name}) <br>" .
                 "Rate: {$this->transaction->rate} <br>" .
                 "Service charge: {$this->transaction->service_charge} <br>" .
-                "Asset amount: $ {$this->transaction->amount} <br>" .
+                "Asset amount: $ {$this->transaction->asset_amount} <br>" .
                 'Amount in Naira: NGN ' . number_format($this->transaction->payable_amount, 2) . ' <br><br>' .
                 'Bank details: <br>' .
                 "Bank name: {$this->transaction->bank->name} <br>" .
@@ -92,7 +92,7 @@ class AssetTransactionApprovedNotification extends Notification implements Shoul
                 "Asset name: {$this->transaction->asset->name} ({$this->transaction->network->name}) <br>" .
                 "Rate: {$this->transaction->rate} <br>" .
                 "Service charge: {$this->transaction->service_charge} <br>" .
-                "Asset amount: $ {$this->transaction->amount} <br>" .
+                "Asset amount: $ {$this->transaction->asset_amount} <br>" .
                 'Amount in Naira: NGN ' . number_format($this->transaction->payable_amount, 2) . ' <br><br>' .
                 "Wallet Address: {$this->transaction->wallet_address}"
             ))

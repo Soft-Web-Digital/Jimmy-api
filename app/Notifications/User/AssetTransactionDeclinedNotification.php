@@ -61,10 +61,10 @@ class AssetTransactionDeclinedNotification extends Notification implements Shoul
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject(Str::headline("$ {$this->transaction->amount} Asset {$this->transaction->trade_type->value} transaction declined"))
+            ->subject(Str::headline("$ {$this->transaction->asset_amount} Asset {$this->transaction->trade_type->value} transaction declined"))
             ->greeting("Dear {$this->transaction->user?->firstname},")
             ->line(
-                "Your asset buy transaction of ($ {$this->transaction->amount}) for " .
+                "Your asset buy transaction of ($ {$this->transaction->asset_amount}) for " .
                     "({$this->transaction->asset->name}) has been declined by the admin."
             )
             ->line('Please contact support for more information or complaints.')
