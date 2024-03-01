@@ -83,8 +83,8 @@ class AssetTransactionDeclinedNotification extends Notification implements Shoul
     public function toArray($notifiable)
     {
         return [
-            'title' => Str::headline("Asset {$this->transaction->trade_ype->value} transaction declined"),
-            'body' => "Your asset {$this->transaction->trade_ype->value} transaction "
+            'title' => Str::headline("Asset {$this->transaction->trade_type->value} transaction declined"),
+            'body' => "Your asset {$this->transaction->trade_type->value} transaction "
                 . "with reference {$this->transaction->reference} has been declined.",
         ];
     }
