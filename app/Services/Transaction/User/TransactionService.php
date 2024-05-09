@@ -131,8 +131,8 @@ class TransactionService
                 DB::raw('CAST(asset_transactions.service_charge AS FLOAT) as service_charge'),
                 'assets.name as category_name',
                 DB::raw(
-                    'CASE WHEN assets.icon LIKE "http%" THEN assets.icon'
-                    . 'ELSE CONCAT(\''.config('app.url').'\', \'/\', assets.icon)'
+                    'CASE WHEN assets.icon LIKE "http%" THEN assets.icon '
+                    . 'ELSE CONCAT(\''.config('app.url').'\', \'/\', assets.icon) '
                     . 'END AS category_icon'
                 ),
                 'asset_transactions.created_at as created_at',
