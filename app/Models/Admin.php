@@ -103,7 +103,7 @@ class Admin extends Authenticatable implements MustVerifyEmail, MustSatisfyTwoFa
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn () => asset($this->avatar),
+            get: fn ($value) => asset($value),
         );
     }
 

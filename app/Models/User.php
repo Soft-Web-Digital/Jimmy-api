@@ -151,7 +151,7 @@ class User extends Authenticable implements
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn () => asset($this->avatar),
+            get: fn ($value) => asset($value),
         );
     }
 
