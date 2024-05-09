@@ -130,7 +130,12 @@ class TransactionService
                 DB::raw('CAST(asset_transactions.review_rate AS FLOAT) as review_rate'),
                 DB::raw('CAST(asset_transactions.service_charge AS FLOAT) as service_charge'),
                 'assets.name as category_name',
-                'assets.icon as category_icon',
+                DB::raw('CONCAT('.config('app.url').', "/", assets.icon) as category_icon'),
+                DB::raw(
+                    'CASE WHEN assets.icon LIKE "http%" THEN assets.icon'
+                    . 'ELSE CONCAT('.config('app.url').', "/", assets.icon)'
+                    . 'END AS category_icon'
+                ),
                 'asset_transactions.created_at as created_at',
             ])
             ->join('assets', 'assets.id', '=', 'asset_transactions.asset_id')
