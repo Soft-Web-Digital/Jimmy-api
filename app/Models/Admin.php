@@ -95,6 +95,17 @@ class Admin extends Authenticatable implements MustVerifyEmail, MustSatisfyTwoFa
             "{$table}.deleted_at",
         ];
     }
+    /**
+     * Get the admins's avatar.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => asset($this->avatar),
+        );
+    }
 
     /**
      * Get the admin's full name.

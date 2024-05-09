@@ -85,6 +85,18 @@ class Asset extends Model
     }
 
     /**
+     * Interact with the asset's icon.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function icon(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => asset($value),
+        );
+    }
+
+    /**
      * Interact with the asset's code.
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute

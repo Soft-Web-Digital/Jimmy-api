@@ -24,7 +24,7 @@ class ProfileController extends Controller
      */
     public function index(Request $request): Response
     {
-        /** @var \App\Models\Admin $user */
+        /** @var \App\Models\User $user */
         $user = $request->user()->load('country:id,name,flag_url,dialing_code');
 
         return ResponseBuilder::asSuccess()

@@ -9,6 +9,6 @@ if (!function_exists('saveFileAndReturnPath')) {
         $filename = $filename ?? time() . rand(1111, 9999) .'.'. $file->getClientOriginalExtension();
         $file->move($path, $filename);
 
-        return asset($path . '/' . $filename);
+        return $path . '/' . $filename;
     }
 }

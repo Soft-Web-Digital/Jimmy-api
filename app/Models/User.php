@@ -144,6 +144,18 @@ class User extends Authenticable implements
     }
 
     /**
+     * Get the user's avatar.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => asset($this->avatar),
+        );
+    }
+
+    /**
      * Get the user's full name.
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
