@@ -31,12 +31,13 @@ class UserProfileService
         // Upload new avatar
         $avatar = $user->avatar;
         if ($userModelData->getAvatar() instanceof \Illuminate\Http\UploadedFile) {
-            $path = $userModelData->getAvatar()
-                ->storeAs('avatars', ($user->id . '.' . $userModelData->getAvatar()->extension()));
+            // $path = $userModelData->getAvatar()
+            //     ->storeAs('avatars', ($user->id . '.' . $userModelData->getAvatar()->extension()));
 
-            throw_if($path === false, ExpectationFailedException::class, 'Avatar could not be uploaded');
+            // throw_if($path === false, ExpectationFailedException::class, 'Avatar could not be uploaded');
 
-            $avatar = Storage::url($path);
+            // $avatar = Storage::url($path);
+            $avatar = saveFileAndReturnPath($userModelData->getAvatar());
         }
 
         // Format phone number

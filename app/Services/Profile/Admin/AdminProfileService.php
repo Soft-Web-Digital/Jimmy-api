@@ -30,12 +30,13 @@ class AdminProfileService
         // Upload new avatar
         $avatar = $admin->avatar;
         if ($adminModelData->getAvatar() instanceof \Illuminate\Http\UploadedFile) {
-            $path = $adminModelData->getAvatar()
-                ->storeAs('avatars', ($admin->id . '.' . $adminModelData->getAvatar()->extension()));
+            // $path = $adminModelData->getAvatar()
+            //     ->storeAs('avatars', ($admin->id . '.' . $adminModelData->getAvatar()->extension()));
 
-            throw_if($path === false, ExpectationFailedException::class, 'Avatar could not be uploaded');
+            // throw_if($path === false, ExpectationFailedException::class, 'Avatar could not be uploaded');
 
-            $avatar = Storage::url($path);
+            // $avatar = Storage::url($path);
+            $avatar = saveFileAndReturnPath($adminModelData->getAvatar());
         }
 
         // Format phone number
