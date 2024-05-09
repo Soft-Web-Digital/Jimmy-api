@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\MorphMapTrait;
 use App\Traits\UUID;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -60,6 +61,30 @@ class Banner extends Model
             "{$table}.created_at",
             "{$table}.updated_at",
         ];
+    }
+
+    /**
+     * Interact with the banner's featured image.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function featuredImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => asset($value),
+        );
+    }
+
+    /**
+     * Interact with the banner's preview image.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function previewImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => asset($value),
+        );
     }
 
     /**
