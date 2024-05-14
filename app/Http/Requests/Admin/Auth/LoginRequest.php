@@ -4,7 +4,6 @@ namespace App\Http\Requests\Admin\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 
 class LoginRequest extends FormRequest
 {
@@ -32,7 +31,6 @@ class LoginRequest extends FormRequest
             ],
             'password' => [
                 'required',
-                Password::default(),
             ],
         ];
     }
