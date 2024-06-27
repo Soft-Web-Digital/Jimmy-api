@@ -29,16 +29,16 @@ class UserProfileService
             ->firstOrFail();
 
         // Upload new avatar
-        $avatar = $user->avatar;
-        if ($userModelData->getAvatar() instanceof \Illuminate\Http\UploadedFile) {
-            // $path = $userModelData->getAvatar()
-            //     ->storeAs('avatars', ($user->id . '.' . $userModelData->getAvatar()->extension()));
+        // $avatar = $user->avatar;
+        // if ($userModelData->getAvatar() instanceof \Illuminate\Http\UploadedFile) {
+        //     // $path = $userModelData->getAvatar()
+        //     //     ->storeAs('avatars', ($user->id . '.' . $userModelData->getAvatar()->extension()));
 
-            // throw_if($path === false, ExpectationFailedException::class, 'Avatar could not be uploaded');
+        //     // throw_if($path === false, ExpectationFailedException::class, 'Avatar could not be uploaded');
 
-            // $avatar = Storage::url($path);
-            $avatar = saveFileAndReturnPath($userModelData->getAvatar());
-        }
+        //     // $avatar = Storage::url($path);
+        //     $avatar = saveFileAndReturnPath($userModelData->getAvatar());
+        // }
 
         // Format phone number
         $phoneNumber = (
@@ -55,7 +55,7 @@ class UserProfileService
             'lastname' => $userModelData->getLastname() ?? $user->lastname,
             'email' => $userModelData->getEmail() ?? $user->email,
             'email_verified_at' => $user->isDirty('email') ? null : $user->email_verified_at,
-            'avatar' => $avatar,
+            'avatar' => $userModelData->getAvatar() ?? $user->avatar,
             'username' => $userModelData->getUsername() ?? $user->username,
             'phone_number' => $phoneNumber ? str_replace($country->dialing_code, '', $phoneNumber) : null,
             'date_of_birth' => $userModelData->getDateOfBirth() ?? $user->date_of_birth,

@@ -96,7 +96,7 @@ class ProfileController extends Controller
                 ->setLastname($request->lastname)
                 ->setEmail($request->email)
                 ->setPhoneNumber($request->phone_number)
-                ->setAvatar($request->file('avatar'))
+                ->setAvatar($request->avatar)
                 ->setUsername($request->username)
                 ->setPhoneNumber($request->phone_number)
                 ->setDateOfBirth($request->date_of_birth)

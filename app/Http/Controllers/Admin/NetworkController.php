@@ -61,16 +61,39 @@ class NetworkController extends Controller
      */
     public function store(StoreNetworkRequest $request, NetworkService $networkService): Response
     {
-        $network = $networkService->create($request->name, $request->wallet_address, $request->comment);
+        // Check if a network with the given name exists, including soft-deleted ones
+        $network = Network::withTrashed()->where('name', $request->name)->first();
 
-        return ResponseBuilder::asSuccess()
-            ->withHttpCode(201)
-            ->withMessage('Network created successfully')
-            ->withData([
-                'network' => $network,
-            ])
-            ->build();
+        if ($network) {
+            if ($network->trashed()) {
+                // If the network is soft-deleted, restore it
+                $network->restore();
+                $network->wallet_address = $request->wallet_address;
+                $network->comment = $request->comment;
+                $network->save();
+                
+                return ResponseBuilder::asSuccess()
+                    ->withHttpCode(200)
+                    ->withMessage('Network restored successfully')
+                    ->withData([
+                        'network' => $network,
+                    ])
+                    ->build();
+            }
+        } else {
+            // Create a new network if it doesn't exist
+            $network = $networkService->create($request->name, $request->wallet_address, $request->comment);
+
+            return ResponseBuilder::asSuccess()
+                ->withHttpCode(201)
+                ->withMessage('Network created successfully')
+                ->withData([
+                    'network' => $network,
+                ])
+                ->build();
+        }
     }
+
 
     /**
      * Display the specified resource.
